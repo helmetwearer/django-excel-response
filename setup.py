@@ -15,7 +15,7 @@ setup(
     packages=['excel_response3'],
 
     url='http://github.com/danpetrikin/django-excel-response/',
-    download_url = 'https://github.com/danpetrikin/django-excel-response/tarball/1.0',
+    download_url = 'https://github.com/danpetrikin/django-excel-response/tarball/1.01',
     description = """A subclass of HttpResponse which will transform a QuerySet,
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.
