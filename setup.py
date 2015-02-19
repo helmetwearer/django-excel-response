@@ -8,10 +8,10 @@ setup(
     version=version,
     author='Dan Petrikin',
     author_email='dan@pydojo.com',
-    packages=['excel_response'],
+    packages=['excel_response3'],
 
     url='http://github.com/danpetrikin/django-excel-response/',
-    download_url = 'https://github.com/danpetrikin/django-excel-response/archive/master.zip',
+    download_url = 'https://github.com/danpetrikin/django-excel-response/tarball/1.0',
     description = """A subclass of HttpResponse which will transform a QuerySet,
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.
@@ -22,7 +22,7 @@ http://djangosnippets.org/snippets/1151/
     long_description = open('README.rst').read(),
 
     requires = ['xlwt'],
-
+    keywords = ['excel','django'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
