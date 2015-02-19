@@ -16,7 +16,7 @@ setup(
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.
 
-http://djangosnippets.org/snippets/1151/
+http://github.com/danpetrikin/django-excel-response/
 """,
 
     long_description = open('README.rst').read(),
