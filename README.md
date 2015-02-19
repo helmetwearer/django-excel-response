@@ -41,6 +41,6 @@ Constructor Kwargs
 use the 2nd arg passed when defining the class
 + force_csv - forcibly respond with csv, defaults to False
 + encoding - defaults to 'utf8'
-+sheet_name - defaults to 'Sheet 1'
-+blanks_for_none - replace None values with '', defaults to True
-+auto_adjust_width - adjust width of each column automatically, defaults to True
++ sheet_name - defaults to 'Sheet 1'
++ blanks_for_none - replace None values with '', defaults to True
++ auto_adjust_width - adjust width of each column automatically, defaults to True
