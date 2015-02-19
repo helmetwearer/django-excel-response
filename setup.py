@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 from distutils.core import setup
+try:
+    ld = open('README.md').read()
+except:
+    ld = ''
 
-version='1.0'
+version='1.01'
 
 setup(
     name='django-excel-response3',
@@ -19,7 +23,7 @@ CSV file formatted for Excel, depending on the amount of data.
 http://github.com/danpetrikin/django-excel-response/
 """,
 
-    long_description = open('README.rst').read(),
+    long_description = ld,
 
     requires = ['xlwt'],
     keywords = ['excel','django'],
