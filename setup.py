@@ -19,7 +19,6 @@ setup(
     description = """A subclass of HttpResponse which will transform a QuerySet,
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.
-
 http://github.com/danpetrikin/django-excel-response/
 """,
 

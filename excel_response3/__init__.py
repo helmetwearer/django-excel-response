@@ -6,7 +6,6 @@ import StringIO
 from django.db.models.query import QuerySet, ValuesQuerySet
 from django.http import HttpResponse
 
-
 class ExcelResponse(HttpResponse):
 
     ROW_LIMIT = 65536

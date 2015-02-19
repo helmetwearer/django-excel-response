@@ -1,6 +1,6 @@
 django-excel-response3
 =====================
-
+ 
 This is an overhaul of https://pypi.python.org/pypi/django-excel-response which was originally http://djangosnippets.org/snippets/1151/
 
 + added class detection for values, and will use the value str(class_value)
