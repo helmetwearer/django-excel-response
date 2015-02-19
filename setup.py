@@ -4,17 +4,14 @@ from distutils.core import setup
 version='1.0'
 
 setup(
-    name='django-excel-response',
+    name='django-excel-response3',
     version=version,
-    author='Tarken',
-    author_email='?',
-#    maintainer = 'Mikhail Korobov',
-#    maintainer_email='kmike84@gmail.com',
-
+    author='Dan Petrikin',
+    author_email='dan@pydojo.com',
     packages=['excel_response'],
 
-    url='http://bitbucket.org/kmike/django-excel-response/',
-    download_url = 'http://bitbucket.org/kmike/django-excel-response/get/tip.zip',
+    url='http://github.com/danpetrikin/django-excel-response/',
+    download_url = 'https://github.com/danpetrikin/django-excel-response/archive/master.zip',
     description = """A subclass of HttpResponse which will transform a QuerySet,
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.
