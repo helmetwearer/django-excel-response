@@ -8,12 +8,11 @@ This is an overhaul of https://pypi.python.org/pypi/django-excel-response which 
 + refactored the code to resemble an actual class, as opposed to one giant init function
 + removed the performance killing import every time you write a sheet, xlwt is required. If you don't like it use a CSV writer
 + refactored the CSV writing portion of the code to actually use python's csv class
-
++ added width auto adjustment
 
 Usage
 =====
 
-::
 
     from excel_response3 import ExcelResponse
 
@@ -22,7 +21,7 @@ Usage
         return ExcelResponse(objs)
 
 
-or::
+or
 
     from excel_response3 import ExcelResponse
 

@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 from distutils.core import setup
 try:
-    ld = open('README.md').read()
+    ld = open('README.rst').read()
 except:
-    ld = ''
+    try:
+        ld = open('README.md').read()
+    except:
+        ld = ''
 
-version='1.01'
+version='1.02'
 
 setup(
     name='django-excel-response3',
@@ -15,7 +18,7 @@ setup(
     packages=['excel_response3'],
 
     url='http://github.com/danpetrikin/django-excel-response/',
-    download_url = 'https://github.com/danpetrikin/django-excel-response/tarball/1.01',
+    download_url = 'https://github.com/danpetrikin/django-excel-response/tarball/%s' % version,
     description = """A subclass of HttpResponse which will transform a QuerySet,
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.

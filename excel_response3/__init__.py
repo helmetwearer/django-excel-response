@@ -57,11 +57,17 @@ class ExcelResponse(HttpResponse):
                     cell_style = styles[type(value).__name__]
 
                 elif isinstance(value, basestring):
+                    leading_zero_number_regex = re.compile(
+                        '^[0]+[0-9,]*$'
+                    )
+                    
                     comma_separated_number_regex = re.compile(
                         '^[0-9,\.\-][0-9,\.]*$')
                     dollar_regex = re.compile('^[0-9,\.$]+$')
-
-                    if comma_separated_number_regex.match(value):
+                    
+                    if leading_zero_number_regex.match(value):
+                        cell_style = xlwt.easyxf(num_format_str='0'*len(value))
+                    elif comma_separated_number_regex.match(value):
                         value = float(value.replace(',', ''))
                     elif dollar_regex.match(value):
                         value = float(value.replace(',', '').replace('$', ''))
