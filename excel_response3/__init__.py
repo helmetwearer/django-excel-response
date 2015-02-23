@@ -69,6 +69,9 @@ class ExcelResponse(HttpResponse):
                         cell_style = xlwt.easyxf(num_format_str='0'*len(value))
                     elif comma_separated_number_regex.match(value):
                         value = float(value.replace(',', ''))
+                        if len(str(value)) > 15:
+                            value = str(value)
+                            cell_style = xlwt.easyxf(num_format_str='0'*len(value))
                     elif dollar_regex.match(value):
                         value = float(value.replace(',', '').replace('$', ''))
                         cell_style = styles['currency']
