@@ -2,7 +2,11 @@ import datetime
 import re
 import csv
 import xlwt
-import StringIO
+try:
+    from StringIO import StringIO
+except:
+    from io import StringIO
+    
 from django.db.models.query import QuerySet, ValuesQuerySet
 from django.http import HttpResponse
 
@@ -32,7 +36,7 @@ class ExcelResponse(HttpResponse):
 
     @property
     def as_xls(self):
-        output = StringIO.StringIO()
+        output = StringIO()
         book = xlwt.Workbook(encoding=self.encoding)
         sheet = book.add_sheet(self.sheet_name)
 
@@ -90,7 +94,7 @@ class ExcelResponse(HttpResponse):
 
     @property
     def as_csv(self):
-        output = StringIO.StringIO()
+        output = StringIO()
         writer = csv.writer(output)
         for row in self.data:
             writer.writerow(row)
