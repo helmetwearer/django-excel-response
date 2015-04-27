@@ -37,7 +37,7 @@ class ExcelResponse(HttpResponse):
     @property
     def as_xls(self):
         output = StringIO()
-        book = xlwt.Workbook(encoding=self.encoding)
+        book = xlwt.Workbook(encoding=self.encoding,style_compression=2)
         sheet = book.add_sheet(self.sheet_name)
 
         styles = {
