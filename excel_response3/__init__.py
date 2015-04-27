@@ -87,6 +87,8 @@ class ExcelResponse(HttpResponse):
                     else:
                         width = len(str(value)) * 256
                     if width > widths.get(colx, 0):
+                        if width > self.ROW_LIMIT:
+                            width = self.ROW_LIMIT
                         widths[colx] = width
                         sheet.col(colx).width = width
         book.save(output)

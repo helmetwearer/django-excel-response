@@ -8,7 +8,7 @@ except:
     except:
         ld = ''
 
-version='1.41'
+version='1.42'
 
 setup(
     name='django-excel-response3',
