@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 class ExcelResponse(HttpResponse):
 
-    ROW_LIMIT = 65536
+    ROW_LIMIT = 655365
 
     # Make sure we've got the right type of data to work with
     @property
