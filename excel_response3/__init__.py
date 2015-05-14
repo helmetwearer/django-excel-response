@@ -10,6 +10,12 @@ except:
 from django.db.models.query import QuerySet, ValuesQuerySet
 from django.http import HttpResponse
 
+def strip_non_ascii(string):
+    if isinstance(string, basestring):
+        stripped = (c for c in string if 0 < ord(c) < 127)
+        return ''.join(stripped)
+    return string
+
 class ExcelResponse(HttpResponse):
 
     ROW_LIMIT = 655365
@@ -99,8 +105,7 @@ class ExcelResponse(HttpResponse):
         output = StringIO()
         writer = csv.writer(output)
         for row in self.data:
-            row = [str(item).encode("UTF-8") for item in row]
-            writer.writerow(row)
+            writer.writerow([strip_non_ascii(item) for item in row])
         return output
 
     def is_user_defined_class(self, inst):
