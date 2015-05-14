@@ -99,6 +99,7 @@ class ExcelResponse(HttpResponse):
         output = StringIO()
         writer = csv.writer(output)
         for row in self.data:
+            row = [str(item).encode("UTF-8") for item in row]
             writer.writerow(row)
         return output
 
