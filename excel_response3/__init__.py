@@ -68,12 +68,12 @@ class ExcelResponse(HttpResponse):
 
                 elif isinstance(value, basestring):
                     leading_zero_number_regex = re.compile(
-                        '^[0]+[0-9,]*$'
+                        r'^-?[0-9,]*\.[0-9]*$'
                     )
                     
                     comma_separated_number_regex = re.compile(
-                        '^[0-9,\.\-][0-9,\.]*$')
-                    dollar_regex = re.compile('^[0-9,\.$]+$')
+                        r'^-?[0-9,\.\-][0-9,\.]*$')
+                    dollar_regex = re.compile(r'^\$[0-9,\.]+$')
                     
                     if leading_zero_number_regex.match(value):
                         cell_style = xlwt.easyxf(num_format_str='0'*len(value))
