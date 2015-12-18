@@ -7,7 +7,7 @@ try:
 except:
     from io import StringIO
     
-from django.db.models.query import QuerySet, ValuesQuerySet
+from django.db.models.query import QuerySet
 from django.http import HttpResponse
 
 def strip_non_ascii(string):
@@ -23,9 +23,7 @@ class ExcelResponse(HttpResponse):
     # Make sure we've got the right type of data to work with
     @property
     def cleaned_data(self):
-        if isinstance(self.data, ValuesQuerySet):
-            self.data = list(self.data)
-        elif isinstance(self.data, QuerySet):
+        if isinstance(self.data, QuerySet):
             self.data = list(self.data.values())
         if hasattr(self.data, '__getitem__'):
             if isinstance(self.data[0], dict):
