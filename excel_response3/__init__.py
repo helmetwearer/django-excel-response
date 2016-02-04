@@ -6,15 +6,23 @@ try:
     from StringIO import StringIO
 except:
     from io import StringIO
-    
-from django.db.models.query import QuerySet, ValuesQuerySet
+
+from django.db.models.query import QuerySet
+try:
+    SUPPORT_VALUES_QS = True
+    from django.db.models.query import ValuesQuerySet
+except ImportError:
+    SUPPORT_VALUES_QS = False
+
 from django.http import HttpResponse
+
 
 def strip_non_ascii(string):
     if isinstance(string, basestring):
         stripped = (c for c in string if 0 < ord(c) < 127)
         return ''.join(stripped)
     return string
+
 
 class ExcelResponse(HttpResponse):
 
@@ -23,7 +31,7 @@ class ExcelResponse(HttpResponse):
     # Make sure we've got the right type of data to work with
     @property
     def cleaned_data(self):
-        if isinstance(self.data, ValuesQuerySet):
+        if SUPPORT_VALUES_QS and isinstance(self.data, ValuesQuerySet):
             self.data = list(self.data)
         elif isinstance(self.data, QuerySet):
             self.data = list(self.data.values())
@@ -43,7 +51,7 @@ class ExcelResponse(HttpResponse):
     @property
     def as_xls(self):
         output = StringIO()
-        book = xlwt.Workbook(encoding=self.encoding,style_compression=2)
+        book = xlwt.Workbook(encoding=self.encoding, style_compression=2)
         sheet = book.add_sheet(self.sheet_name)
 
         styles = {
@@ -70,21 +78,28 @@ class ExcelResponse(HttpResponse):
                     leading_zero_number_regex = re.compile(
                         r'^-?[0]+[0-9,]*$'
                     )
-                    
                     comma_separated_number_regex = re.compile(
-                        r'^-?[0-9,]*\.[0-9]*$')
-                    dollar_regex = re.compile(r'^\$[0-9,\.]+$')
+                        r'^-?[0-9,]*\.[0-9]*$'
+                    )
+                    dollar_regex = re.compile(
+                        r'^\$[0-9,\.]+$'
+                    )
                     
-                    if leading_zero_number_regex.match(value):
-                        cell_style = xlwt.easyxf(num_format_str='0'*len(value))
-                    elif comma_separated_number_regex.match(value) and value != '-':
-                        value = float(value.replace(',', ''))
-                        if len(str(value)) > 15:
-                            value = str(value)
-                            cell_style = xlwt.easyxf(num_format_str='0'*len(value))
-                    elif dollar_regex.match(value) and value != '-':
-                        value = float(value.replace(',', '').replace('$', ''))
-                        cell_style = styles['currency']
+                    try:
+                        if leading_zero_number_regex.match(value):
+                            cell_style = xlwt.easyxf(
+                                num_format_str='0' * len(value))
+                        elif comma_separated_number_regex.match(value) and value != '-':
+                            value = float(value.replace(',', ''))
+                            if len(str(value)) > 15:
+                                value = str(value)
+                                cell_style = xlwt.easyxf(
+                                    num_format_str='0' * len(value))
+                        elif dollar_regex.match(value) and value != '-':
+                            value = float(re.sub(r'[,$]', '', value))
+                            cell_style = styles['currency']
+                    except ValueError:
+                        pass
 
                 sheet.write(rowx, colx, value, style=cell_style)
                 if self.auto_adjust_width:
@@ -121,7 +136,10 @@ class ExcelResponse(HttpResponse):
             self.output_name = args[1].replace('"', '\"')
         except IndexError:
             self.output_name = kwargs.pop(
-                'output_name', 'excel_data').replace('"', '\"')
+                'output_name', 
+                'excel_data'
+            ).replace('"', '\"')
+            
         self.headers = kwargs.pop('headers', None)
         self.force_csv = kwargs.pop('force_csv', False)
         self.encoding = kwargs.pop('encoding', 'utf8')
@@ -143,7 +161,8 @@ class ExcelResponse(HttpResponse):
             file_ext = 'csv'
         output.seek(0)
         super(ExcelResponse, self).__init__(
-            content=output.getvalue(), content_type=mimetype)
+            content=output.getvalue(), content_type=mimetype
+        )
         self['Content-Disposition'] = 'attachment;filename="%s.%s"' % (
             self.output_name,
             file_ext
