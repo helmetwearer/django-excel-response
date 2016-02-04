@@ -75,16 +75,19 @@ class ExcelResponse(HttpResponse):
                         r'^-?[0-9,]*\.[0-9]*$')
                     dollar_regex = re.compile(r'^\$[0-9,\.]+$')
                     
-                    if leading_zero_number_regex.match(value):
-                        cell_style = xlwt.easyxf(num_format_str='0'*len(value))
-                    elif comma_separated_number_regex.match(value) and value != '-':
-                        value = float(value.replace(',', ''))
-                        if len(str(value)) > 15:
-                            value = str(value)
+                    try:
+                        if leading_zero_number_regex.match(value):
                             cell_style = xlwt.easyxf(num_format_str='0'*len(value))
-                    elif dollar_regex.match(value) and value != '-':
-                        value = float(value.replace(',', '').replace('$', ''))
-                        cell_style = styles['currency']
+                        elif comma_separated_number_regex.match(value) and value != '-':
+                            value = float(value.replace(',', ''))
+                            if len(str(value)) > 15:
+                                value = str(value)
+                                cell_style = xlwt.easyxf(num_format_str='0'*len(value))
+                        elif dollar_regex.match(value) and value != '-':
+                            value = float(value.replace(',', '').replace('$', ''))
+                            cell_style = styles['currency']
+                    except ValueError:
+                        pass
 
                 sheet.write(rowx, colx, value, style=cell_style)
                 if self.auto_adjust_width:
