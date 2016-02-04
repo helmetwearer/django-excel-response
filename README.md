@@ -28,7 +28,7 @@ or
     def excelview(request):
         data = [
             ['Column 1', 'Column 2'],
-            [1,2]
+            [1,2],
             [23,67]
         ]
         return ExcelResponse(data, 'my_data')
