@@ -25,8 +25,8 @@ def strip_non_ascii(string):
 
 
 class ExcelResponse(HttpResponse):
-
-    ROW_LIMIT = 655365
+    #This is the row limit for xls
+    ROW_LIMIT = 65536
 
     # Make sure we've got the right type of data to work with
     @property
