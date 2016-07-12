@@ -8,7 +8,7 @@ except:
     except:
         ld = ''
 
-version='1.51'
+version = '1.51'
 
 setup(
     name='django-excel-response3',
@@ -18,17 +18,17 @@ setup(
     packages=['excel_response3'],
 
     url='http://github.com/danpetrikin/django-excel-response/',
-    download_url = 'https://github.com/danpetrikin/django-excel-response/tarball/%s' % version,
-    description = """A subclass of HttpResponse which will transform a QuerySet,
+    download_url='https://github.com/danpetrikin/django-excel-response/tarball/%s' % version,
+    description="""A subclass of HttpResponse which will transform a QuerySet,
 or sequence of sequences, into either an Excel spreadsheet or
 CSV file formatted for Excel, depending on the amount of data.
 http://github.com/danpetrikin/django-excel-response/
 """,
 
-    long_description = ld,
+    long_description=ld,
 
-    requires = ['xlwt'],
-    keywords = ['excel','django'],
+    requires=['xlwt'],
+    keywords=['excel', 'django'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -37,6 +37,5 @@ http://github.com/danpetrikin/django-excel-response/
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Office/Business :: Financial :: Spreadsheet',
-
     ],
 )

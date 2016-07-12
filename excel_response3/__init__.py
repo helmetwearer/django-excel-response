@@ -1,4 +1,5 @@
-import datetime
+# -*- coding:utf-8 -*-
+
 import re
 import csv
 import xlwt
@@ -25,8 +26,11 @@ def strip_non_ascii(string):
 
 
 class ExcelResponse(HttpResponse):
-    #This is the row limit for xls
+    # This is the row limit for xls
     ROW_LIMIT = 65536
+    # This is the column width limit for xlwt
+    # https://github.com/python-excel/xlwt/blob/master/xlwt/Column.py#L22
+    COLUMN_WIDTH_LIMIT = 65535
 
     # Make sure we've got the right type of data to work with
     @property
@@ -84,7 +88,7 @@ class ExcelResponse(HttpResponse):
                     dollar_regex = re.compile(
                         r'^\$[0-9,\.]+$'
                     )
-                    
+
                     try:
                         if leading_zero_number_regex.match(value):
                             cell_style = xlwt.easyxf(
@@ -103,13 +107,9 @@ class ExcelResponse(HttpResponse):
 
                 sheet.write(rowx, colx, value, style=cell_style)
                 if self.auto_adjust_width:
-                    if isinstance(value, basestring):
-                        width = len(value) * 256
-                    else:
-                        width = len(str(value)) * 256
+                    width = len(value) * 256 if isinstance(value, basestring) else len(str(value)) * 256
                     if width > widths.get(colx, 0):
-                        if width > self.ROW_LIMIT:
-                            width = self.ROW_LIMIT
+                        width = min(width, self.COLUMN_WIDTH_LIMIT)
                         widths[colx] = width
                         sheet.col(colx).width = width
         book.save(output)
@@ -136,10 +136,10 @@ class ExcelResponse(HttpResponse):
             self.output_name = args[1].replace('"', '\"')
         except IndexError:
             self.output_name = kwargs.pop(
-                'output_name', 
+                'output_name',
                 'excel_data'
             ).replace('"', '\"')
-            
+
         self.headers = kwargs.pop('headers', None)
         self.force_csv = kwargs.pop('force_csv', False)
         self.encoding = kwargs.pop('encoding', 'utf8')
